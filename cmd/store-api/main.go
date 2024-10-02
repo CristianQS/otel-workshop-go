@@ -10,7 +10,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	productHandler := handlers.ProductHandler{}
-	r.HandleFunc("/products/{id}", productHandler.ServeHttp)
+	r.HandleFunc("/products/{id}", productHandler.GetProductById).Methods("GET")
 
 	http.ListenAndServe(":8080", r)
 }

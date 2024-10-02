@@ -10,6 +10,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	WarehouseHandler := handlers.WarehouseHandler{}
-	r.HandleFunc("/warehouses/{id}", WarehouseHandler.ServeHttp)
+	r.HandleFunc("/warehouses/{id}", WarehouseHandler.ServeHttp).Methods("GET")
+	r.HandleFunc("/warehouses/{id}/stock/{productId}", WarehouseHandler.GetStock).Methods("GET")
 	http.ListenAndServe(":8081", r)
 }
