@@ -7,18 +7,16 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/CristianQS/otel-workshop-go/pkg/common/traceExportFactory"
 	"github.com/gorilla/mux"
 	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
-	"go.opentelemetry.io/otel/sdk/trace"
 )
 
 type ProductHandler struct{}
 
 func (*ProductHandler) GetProductById(w http.ResponseWriter, r *http.Request) {
-	consoleExporter, _ := stdouttrace.New(stdouttrace.WithPrettyPrint())
-	tracerProvider := trace.NewTracerProvider(trace.WithBatcher(consoleExporter, trace.WithBatchTimeout(time.Second)))
-	tracer := tracerProvider.Tracer("store-api")
+	tracerProvider := traceExportFactory.ConsoleExporter(time.Second)
+	tracer := tracerProvider.Tracer("store-api", "0.0.1")
 	_, span := tracer.Start(r.Context(), "get-product")
 	defer span.End()
 	resp, err := http.Get(fmt.Sprintf("http://localhost:8081/warehouses/1/stock/%s", mux.Vars(r)["id"]))
