@@ -9,6 +9,7 @@ import (
 
 func ConsoleExporter(durationTime time.Duration) trace.TracerProvider {
 	consoleExporter, _ := stdouttrace.New(stdouttrace.WithPrettyPrint())
-	tracerProvider := trace.NewTracerProvider(trace.WithBatcher(consoleExporter, trace.WithBatchTimeout(durationTime)))
+	tracerProvider := trace.NewTracerProvider(
+		trace.WithBatcher(consoleExporter, trace.WithBatchTimeout(durationTime)))
 	return *tracerProvider
 }
