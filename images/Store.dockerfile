@@ -1,10 +1,9 @@
 FROM golang:1.23 AS build
 WORKDIR /app
-COPY go.mod go.sum ./       
+COPY go.mod go.sum /app/       
 RUN go mod download
 COPY cmd/store-api/* internals/* pkg/* ./
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o /store-api
+RUN go build -o /store-api
 
 FROM gcr.io/distroless/base-debian11 AS run-container
 
