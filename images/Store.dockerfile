@@ -2,7 +2,10 @@ FROM golang:1.23 AS build
 WORKDIR /app
 COPY go.mod go.sum /app/       
 RUN go mod download
-COPY cmd/store-api/* internals/* pkg/* ./
+ADD cmd/store-api/* /app/
+ADD pkg/clients/* /app/pkg/clients/
+ADD pkg/common/* /app/pkg/common/
+
 RUN go build -o /store-api
 
 FROM gcr.io/distroless/base-debian11 AS run-container
