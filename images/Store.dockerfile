@@ -3,8 +3,8 @@ WORKDIR /app
 COPY go.mod go.sum /app/       
 RUN go mod download
 ADD cmd/store-api/* /app/
-ADD pkg/clients/* /app/pkg/clients/
-ADD pkg/common/* /app/pkg/common/
+COPY pkg/ /app/pkg/
+
 
 RUN go build -o /store-api
 

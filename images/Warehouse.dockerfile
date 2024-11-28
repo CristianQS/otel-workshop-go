@@ -3,8 +3,7 @@ WORKDIR /app
 COPY go.mod go.sum /app/       
 RUN go mod download
 ADD cmd/warehouse-api/* /app/
-ADD pkg/clients/* /app/pkg/clients/
-ADD pkg/common/* /app/pkg/common/
+COPY pkg/ /app/pkg/
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /warehouse-api
 
