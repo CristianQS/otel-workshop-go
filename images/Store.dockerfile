@@ -5,7 +5,6 @@ RUN go mod download
 ADD cmd/store-api/* /app/
 COPY pkg/ /app/pkg/
 
-
 RUN go build -o /store-api
 
 FROM gcr.io/distroless/base-debian11 AS run-container
